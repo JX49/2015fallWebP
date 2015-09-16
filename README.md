@@ -8,6 +8,6 @@ users have ability to write a journal about how they feel so they can reveiw it 
 suggestions and helpful tips that are in a fixed place.
 
 Screens:
-home screen, tells people to join or try out
-login screen
-profile page with fitness log/journal tabs
+home screen, tells people to join or try out.
+login screen.
+profile page with fitness log/journal tabs.
