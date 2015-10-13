@@ -4,7 +4,7 @@ session_start();
     
     $message = "Welcome $name";
     
-    $person = array( 'Name' => $name, 'Age' => 38, CalorieGoal => 2000, CalorieBurnGoal => 3000);
+    $person = array( 'Name' => $name, 'Age' => 20, CalorieGoal => 2000, CalorieBurnGoal => 3000);
   
     $food = $_SESSION['food'];
     if(!$food){
