@@ -46,35 +46,3 @@
         <?php endforeach; ?>
     </tbody>
 </table>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.min.js"></script>
-<script type="text/javascript">
-     $(function(){
-        var editTemplate = Handlebars.compile($("#edit-tpl").html());
-        $(".ajax").click(function(){
-            $.get(this.href + "&format=plain").then(function(data){
-                $("#myDialog .modal-content").html(data);
-                $("#myDialog").modal('show');
-            });
-            return false;
-        });
-        $(".edit").click(function(){
-            var $self = $(this);
-            $.getJSON(this.href + "&format=json").then(function(data){
-                var html = editTemplate(data);
-                var $tr = $self.closest("tr").after(html).hide()
-            });
-            return false;
-        });
-    });
-</script>
-<script type="text/template" id="edit-tpl" >
-    <tr>
-       <td><input type="text" name="Name" class="form-control" placeholder="Name" value="{{Name}}" /></td>
-       <td><input type="text" name="Time" class="form-control" placeholder="Time" value="{{Time}}" /></td>
-       <td><input type="text" name="Calories" class="form-control" placeholder="Calories" value="{{Calories}}" /></td>
-       <td>
-         <input type="submit" value="Submit" class="btn btn-primary"/>
-         <input type="hidden" name="Food_id" value="{{Food_id}}" /> 
-       </td>
-    </tr>
-</script>
