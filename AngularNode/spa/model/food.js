@@ -55,7 +55,7 @@ function GetConnection(){
         var conn = mysql.createConnection({
           host: "localhost",
           user: "jx49",
-          password: "6666",
+         
           database: "c9"
         });
     return conn;
