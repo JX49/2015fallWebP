@@ -4,9 +4,9 @@ module.exports =  {
     blank: function(){ return {} },
     get: function(id, ret){
         var conn = GetConnection();
-        var sql = 'SELECT * Food ';
+        var sql = 'SELECT * FROM Food ';
         if(id){
-          sql += " WHERE Food_id = " + id;
+          sql += " WHERE id = " + id;
         }
         conn.query(sql, function(err,rows){
           ret(err,rows);
@@ -15,7 +15,7 @@ module.exports =  {
     },
     delete: function(id, ret){
         var conn = GetConnection();
-        conn.query("DELETE FROM Food WHERE Food_id = " + id, function(err,rows){
+        conn.query("DELETE FROM Food WHERE id = " + id, function(err,rows){
           ret(err);
           conn.end();
         });        
@@ -27,11 +27,11 @@ module.exports =  {
         if (row.id) {
 				  sql = " Update Food "
 							+ " Set Name=?, Time=?, Calories=? "
-						  + " WHERE Food_id = ? ";
+						  + " WHERE id = ? ";
 			  }else{
-				  sql = "INSERT INTO Person "
-						  + " (Name, Time, Created_at, Calories) "
-						  + "VALUES (?, ?, Now() ), ? ";				
+				  sql = "INSERT INTO Food "
+						  + " (Name, Calories, Time, Created_at, Person_id) "
+						  + "VALUES (?, ?, ?, Now(), 1 )";				
 			  }
 
         conn.query(sql, [row.Name, row.Time, row.Calories, row.id],function(err,data){
@@ -55,7 +55,7 @@ function GetConnection(){
         var conn = mysql.createConnection({
           host: "localhost",
           user: "jx49",
-    
+     
           database: "c9"
         });
     return conn;
