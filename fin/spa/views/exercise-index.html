@@ -1,0 +1,50 @@
+        <h3>Daily Exercise tracker</h3>
+        <a class="btn btn-success" ng-click="vm.create()">
+            <i class="glyphicon glyphicon-plus"></i>
+            New Record
+        </a>
+        <a href="#" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Delete All
+            <span class="badge">{{vm.rows.length}}</span>
+        </a>
+        <br />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Time</th>
+                    <th>Calories burned</th>
+              
+                </tr>
+            </thead>
+            <tbody>
+                    <tr ng-repeat="row in vm.rows">
+                        <td ng-if-start="!row.isEditing">{{row.Name}}</td>
+         
+                        <td >{{row.Time}}</td>
+                        <td >{{row.Calories_burned}}</td>
+                
+                          <th ng-if-end scope="row">
+                            <div class="btn-group" role="group" aria-label="...">
+                       
+                              <a ng-click="vm.edit(row, $index)" title="Edit" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-edit"></i></a>
+                              <a ng-click="vm.delete(row, $index)" title="Delete" class="btn btn-default btn-xs delete"><i class="glyphicon glyphicon-trash"></i></a>
+                            </div>
+                          </th>
+                        
+                        <td ng-if-start="row.isEditing"><input type="text" name="Name" class="form-control" placeholder="Name" ng-model="row.Name" /></td>
+                        <td>
+                          
+                        <td><input type="text" name="Time" class="form-control date-time" placeholder="Time" ng-model="row.Time" /></td>
+                        <td><input type="text" name="Calories_burned" class="form-control" placeholder="calories burned" ng-model="row.Calories_burned" /></td>
+                      
+                        <td ng-if-end>
+                            <input type="button" value="Save" class="btn btn-primary btn-sm submit" ng-click="vm.save(row, $index)"/>
+                            <input type="button" value="Cancel" class="btn btn-default btn-sm submit" ng-click="row.isEditing = false"/>
+                        </td>
+                       
+                       
+                    </tr>
+            </tbody>
+        </table>
