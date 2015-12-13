@@ -1,9 +1,0 @@
-        <div class="panel-group">
-          <div class="panel panel-default">
-            <div id = "w" class="panel-body"> Welcome {{vm.rows.Name}} to your details! Take a look at the BMI chart below.</div>
-            <div  id = "w2"    class="panel-body">Your height is {{vm.rows.Height / 12 | number:0}} feet and {{vm.rows.Height % 12}} inches </div>
-            <divid = "w2"   class="panel-body">You are {{vm.rows.Weight}} pounds</div>
-         </div>
-        </div>
-        
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Body_mass_index_chart.svg/1380px-Body_mass_index_chart.svg.png" alt="..." class="img-thumbnail">
