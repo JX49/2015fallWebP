@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>inforun.com</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="info.css">
+  </head>
+  <body ng-app='app'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      
+    <div class="container">
+        <h1>infoRun</h1>
+              <nav class="navbar navbar-default navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">INFORUN.com</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#/person">Person</a></li>
+              <li><a href="#/food" >Food</a></li>
+              <li><a href="#/exercise" >Exercise</a></li>
+               <li><a href="#/journal">journal</a></li>
+             
+            </ul>
+            <form class="nav navbar-nav navbar-right">
+                <div ng-controller="user as user" >
+                  <div ng-if="user.fbUser">
+                      <a href="http://www.facebook.com/{{user.fbUser.id}}">
+                          <img src="https://graph.facebook.com/{{user.fbUser.id}}/picture" />
+                          {{user.fbUser.name}} 
+                      </a>
+                  </div>
+                  <div ng-if="!user.fbUser">
+                      <button ng-click="user.login()" class="btn">Login with facebook</button>
+                  </div>
+                    <button a href="/logout" class="btn">Logout</button>
+                  </div>
+            </form>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+       
+        <div ng-controller="user as user" >
+            <div ng-if="user.fbUser">
+              <h2 id = "p2">Welcome, {{user.fbUser.name}} </h2>
+            </div>
+         </div>
+       
+       
+            <mp-alert></mp-alert><mp-panel></mp-panel>
+            <div ng-view ></div>
+            
+    </div>
+ 
+     <script type="text/javascript" src="//connect.facebook.net/en_US/sdk.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-route.min.js"></script>
+    <script type="text/javascript" src="directives/alert.js"></script>
+    <script type="text/javascript" src="directives/panel.js"></script>
+    <script type="text/javascript">
+        angular.module('app',['ngRoute', 'mplotkin.directives'])
+        .config(function($routeProvider){
+            $routeProvider.
+              when('/person', {
+                templateUrl: 'views/person-index.html',
+                controller: 'person', controllerAs: 'vm'
+              }).
+              when('/person/:id', {
+                templateUrl: 'views/person-details.html',
+                controller: 'personDetails', controllerAs: 'vm'
+              }).
+              when('/food', {
+                templateUrl: 'views/food-index.html',
+                controller: 'food', controllerAs: 'vm'
+              }).
+              when('/food/new', {
+                templateUrl: 'views/food-new.html',
+                controller: 'foodNew', controllerAs: 'vm'
+              }).
+              when('/exercise', {
+                templateUrl: 'views/exercise-index.html',
+                controller: 'exercise', controllerAs: 'vm'
+              }).
+           
+               when('/journal', {
+                templateUrl: 'views/journal-index.html',
+                controller: 'journal', controllerAs: 'vm'
+              }).
+               when('/email', {
+               
+                controller: 'email', controllerAs: 'vm'
+              }).
+              otherwise({
+                redirectTo: '/person'
+              });
+        }).service('facebook',function($q, $http){
+            return {
+                logout:function(){
+                  FB.logout(function(response) {
+                   // Person is now logged out
+                  });
+                },
+                login: function(){
+                    var deferred = $q.defer();
+                    FB.login(function(response) {
+                        FB.api('/me', function(fbUser){
+                            deferred.resolve(fbUser);
+                        });
+                    }, {scope: 'public_profile,email'});
+                    return deferred.promise;
+                },
+                getUser: function(){
+                    var deferred = $q.defer();
+                    
+                    FB.init({
+                        appId      : '897391423670142',
+                        cookie     : true,  
+                        xfbml      : true,  
+                        version    : 'v2.5' 
+                    });
+                    FB.getLoginStatus(function(response) {
+                        if(response.status === 'connected'){
+                            //response.authResponse.accessToken
+                                FB.api('/me', function(fbUser){
+                                    deferred.resolve(fbUser);
+                                });
+                                $http.post('/login', { access_token: response.authResponse.accessToken })
+                        }else{
+                            
+                        }
+                    });
+                    
+                    return deferred.promise;
+                }
+            }
+        })
+        .controller('user', function(facebook){
+            var self = this;
+            facebook.getUser().then(function(fbUser){
+                self.fbUser = fbUser;
+            });
+            self.status = "Not Checked Yet."
+            
+            self.login = function(){
+                facebook.login().then(function(fbUser){
+                    self.fbUser = fbUser;
+                    
+                })
+            }
+           
+        });
+        
+    </script>
+    <script type="text/javascript" src="controllers/person.js"></script>
+    <script type="text/javascript" src="controllers/food.js"></script>
+    <script type="text/javascript" src="controllers/exercise.js"></script>
+     <script type="text/javascript" src="controllers/journal.js"></script>
+    <script type="text/javascript" src="controllers/personDetails.js"></script>
+     <script type="text/javascript" src="controllers/email.js"></script>
+
+
+  </body>
+</html>
