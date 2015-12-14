@@ -6,6 +6,7 @@ var journal = require("./model/journal");
 var food = require("./model/food");
 var email = require("./model/email");
 var exercise = require("./model/exercise");
+var search = require("./model/search");
 var session = require('express-session');
 var userId = require("./inc/userid");
 
@@ -244,6 +245,22 @@ app.get("/person", function(req, res){
 
 
 
+.get("/search/:p/food",  function(req, res){
+    search.get(null, function(err, rows){
+    res.send(rows);
+  })
+})
+
+.get("/search/:p/exercise",  function(req, res){
+    search.get(null, function(err, rows){
+    res.send(rows);
+  })
+})
+
+
+
+
+
 .get("/email", function(req, res){
   
   email.get(null, function(err, rows){
@@ -255,6 +272,7 @@ app.get("/person", function(req, res){
   })
     
 });
+
 
 
 
