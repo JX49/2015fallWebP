@@ -1,4 +1,4 @@
-        <h3>Daily Food tracker</h3>
+        <h3 id = 'FO'>Daily Food tracker</h3>
         <a class="btn btn-success" ng-click="vm.create()">
             <i class="glyphicon glyphicon-plus"></i>
             New Record
@@ -8,7 +8,7 @@
             Delete All
             <span class="badge">{{vm.rows.length}}</span>
         </a>
-        <br />
+        <br>
         <table class="table table-striped" ng-init="vm.rows.total = {}">
             <thead>
                 <tr>
@@ -22,7 +22,18 @@
                 </tr>
                 
             </thead>
+                    
             <tbody>
+               
+                
+                    
+    
+                        <select class="js-example-basic-single" id="select1">
+                          <option value="AL">jquery would not recognize select2 as a function</option>
+                     
+                      <option value="WY"></option>
+                    </select>
+                    
                     <tr ng-repeat="row in vm.rows">
                         <td ng-if-start="!row.isEditing">{{row.Name}}</td>
                         <td ng-init="vm.rows.total.Calories = vm.rows.total.Calories + row.Calories">{{row.Calories}}</td>
@@ -64,3 +75,4 @@
                 </tr>
             </tbody>
         </table>
+      
