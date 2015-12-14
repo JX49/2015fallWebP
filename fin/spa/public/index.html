@@ -9,6 +9,9 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css">
+    
+   
     <link rel="stylesheet" type="text/css" href="info.css">
   </head>
   <body ng-app='app'>
@@ -65,13 +68,91 @@
             <div ng-view ></div>
             
     </div>
- 
+    
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script> 
+      
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/i18n/en.js"></script> 
      <script type="text/javascript" src="//connect.facebook.net/en_US/sdk.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-route.min.js"></script>
     <script type="text/javascript" src="directives/alert.js"></script>
     <script type="text/javascript" src="directives/panel.js"></script>
     <script type="text/javascript">
+    /////////in class final
+      $('#food').ready(function() {
+       $('#select1').select2({
+         ajax: {
+            url: "search/" + params.term + "/" + 'food',
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+             return {
+               q: params.term, // search term
+                page: params.page
+             };
+           },
+          processResults: function (data, params) {
+      // parse the results into the format expected by Select2
+      // since we are using custom formatting functions we do not need to
+      // alter the remote JSON data, except to indicate that infinite
+      // scrolling can be used
+           params.page = params.page || 1;
+ 
+              return {
+             results: data.items,
+                pagination: {
+                 more: (params.page * 30) < data.total_count
+                }
+            };
+          },
+           cache: false
+         },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+         templateResult: formatRepo, // omitted for brevity, see the source of this page
+         templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+        });;
+                                   });
+                                   
+                                   
+                                   
+                                   
+      $('#exercise').ready(function() {
+       $('#select1').select2({
+         ajax: {
+            url: "search/" + params.term + "/" + 'exercise',
+           dataType: 'json',
+           delay: 250,
+           data: function (params) {
+             return {
+               q: params.term, // search term
+                page: params.page
+             };
+           },
+          processResults: function (data, params) {
+      // parse the results into the format expected by Select2
+      // since we are using custom formatting functions we do not need to
+      // alter the remote JSON data, except to indicate that infinite
+      // scrolling can be used
+           params.page = params.page || 1;
+ 
+              return {
+             results: data.items,
+                pagination: {
+                 more: (params.page * 30) < data.total_count
+                }
+            };
+          },
+           cache: false
+         },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+          minimumInputLength: 1,
+         templateResult: formatRepo, // omitted for brevity, see the source of this page
+         templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+        });;
+                                   });
+    
+    
         angular.module('app',['ngRoute', 'mplotkin.directives'])
         .config(function($routeProvider){
             $routeProvider.
